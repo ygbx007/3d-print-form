@@ -62,11 +62,7 @@
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
         }
         .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
+        .success-message { display: none; text-align: center; padding: 40px 20px; }
         .success-message .icon {
             width: 80px; height: 80px;
             background: #52c41a;
@@ -110,6 +106,29 @@
             margin: 0 auto 16px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .radio-group { display: flex; gap: 16px; }
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 20px;
+            border: 2px solid #e8e8e8;
+            border-radius: 10px;
+            flex: 1;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .radio-label:hover { border-color: #667eea; }
+        .radio-label input[type="radio"] {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+        .radio-label:has(input:checked) {
+            border-color: #667eea;
+            background: #f0eeff;
+        }
         .club-name { font-size: 12px; color: #999; text-align: center; margin-top: 16px; }
     </style>
 </head>
@@ -139,12 +158,25 @@
                     <input type="number" id="coins" name="coins" placeholder="需要消耗的积分币数量" min="1" required>
                 </div>
                 <div class="form-group">
+                    <label>积分币是否已给 <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="coinsPaid" value="是" required>
+                            <span>是</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="coinsPaid" value="否" required>
+                            <span>否</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>制作者（老师）</label>
                     <input type="text" id="maker" name="maker" placeholder="如：刘师匠、丹雅绘">
                 </div>
                 <div class="form-group">
                     <label>备注</label>
-                    <input type="text" id="note" name="note" placeholder="如：是否已支付积分币">
+                    <input type="text" id="note" name="note" placeholder="填写备注">
                 </div>
                 <button type="submit" class="submit-btn" id="submitBtn">提交预约</button>
                 <div class="loading" id="loading">
@@ -184,22 +216,27 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
+
             const formData = {
                 name: document.getElementById('name').value.trim(),
                 modelName: document.getElementById('modelName').value.trim(),
                 modelParams: document.getElementById('modelParams').value.trim(),
                 coins: parseInt(document.getElementById('coins').value),
+                coinsPaid: document.querySelector('input[name="coinsPaid"]:checked')?.value || '',
                 maker: document.getElementById('maker').value.trim(),
                 note: document.getElementById('note').value.trim(),
                 submitTime: new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai' })
             };
-            if (!formData.name || !formData.modelName || !formData.coins) {
+
+            if (!formData.name || !formData.modelName || !formData.coins || !formData.coinsPaid) {
                 showError('请填写必填项');
                 return;
             }
+
             submitBtn.style.display = 'none';
             loading.style.display = 'block';
             errorMessage.style.display = 'none';
+
             try {
                 if (WEBHOOK_URL) {
                     await fetch(WEBHOOK_URL, {
@@ -217,6 +254,7 @@
                 loading.style.display = 'none';
             }
         });
+
         function showError(msg) {
             errorMessage.textContent = msg;
             errorMessage.style.display = 'block';
