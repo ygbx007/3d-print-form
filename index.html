@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>星桥编程课时教务系统</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <div class="brand">
+          <div class="brand-mark">C</div>
+          <div>
+            <strong>星桥编程</strong>
+            <span>课时教务系统</span>
+          </div>
+        </div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-view="dashboard">
+            <span class="nav-icon">⌂</span>
+            <span>工作台</span>
+          </button>
+          <button class="nav-item" type="button" data-view="students">
+            <span class="nav-icon">◎</span>
+            <span>学员课时</span>
+          </button>
+          <button class="nav-item" type="button" data-view="schedule">
+            <span class="nav-icon">▦</span>
+            <span>排课中心</span>
+          </button>
+          <button class="nav-item" type="button" data-view="consume">
+            <span class="nav-icon">✓</span>
+            <span>消课审核</span>
+          </button>
+          <button class="nav-item" type="button" data-view="teachers">
+            <span class="nav-icon">◇</span>
+            <span>教师班级</span>
+          </button>
+          <button class="nav-item" type="button" data-view="finance">
+            <span class="nav-icon">¥</span>
+            <span>续费提醒</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <span>今日待办</span>
+          <strong>12</strong>
+          <small>含 4 条低课时提醒</small>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <button class="icon-button menu-button" type="button" id="toggleSidebar" aria-label="展开或收起导航">☰</button>
+          <div class="topbar-title">
+            <span id="sectionKicker">工作台</span>
+            <h1 id="sectionTitle">课时教务总览</h1>
+          </div>
+          <label class="search-box" for="globalSearch">
+            <span>⌕</span>
+            <input id="globalSearch" type="search" placeholder="搜索学员、班级、教师">
+          </label>
+          <button class="primary-button" type="button" id="openCreateModal">新增排课</button>
+        </header>
+
+        <section class="view active" id="dashboard" data-title="课时教务总览" data-kicker="工作台">
+          <div class="stats-grid">
+            <article class="stat-card accent-blue">
+              <span>在读学员</span>
+              <strong>386</strong>
+              <small>本月新增 28 人</small>
+            </article>
+            <article class="stat-card accent-green">
+              <span>本周课次</span>
+              <strong>142</strong>
+              <small>已确认 118 节</small>
+            </article>
+            <article class="stat-card accent-orange">
+              <span>待消课</span>
+              <strong>31</strong>
+              <small>超 24 小时 6 条</small>
+            </article>
+            <article class="stat-card accent-red">
+              <span>低课时</span>
+              <strong>46</strong>
+              <small>剩余小于 4 课时</small>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel wide-panel">
+              <div class="panel-head">
+                <div>
+                  <span>今日课程</span>
+                  <h2>课程看板</h2>
+                </div>
+                <div class="segmented-control" role="group" aria-label="课程状态筛选">
+                  <button class="active" type="button">全部</button>
+                  <button type="button">待上课</button>
+                  <button type="button">已结束</button>
+                </div>
+              </div>
+              <div class="timeline">
+                <article class="lesson-card">
+                  <time>09:00</time>
+                  <div>
+                    <strong>Scratch 动画创作 L3</strong>
+                    <span>启航 A 班 · 林老师 · 8/10 人</span>
+                  </div>
+                  <span class="status-badge ready">待上课</span>
+                </article>
+                <article class="lesson-card">
+                  <time>14:30</time>
+                  <div>
+                    <strong>Python 图形化编程</strong>
+                    <span>火箭 B 班 · 周老师 · 12/12 人</span>
+                  </div>
+                  <span class="status-badge doing">进行中</span>
+                </article>
+                <article class="lesson-card">
+                  <time>18:40</time>
+                  <div>
+                    <strong>NOIP 入门算法</strong>
+                    <span>竞赛预备班 · 韩老师 · 6/8 人</span>
+                  </div>
+                  <span class="status-badge muted">待确认</span>
+                </article>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head compact">
+                <div>
+                  <span>课时风险</span>
+                  <h2>重点跟进</h2>
+                </div>
+              </div>
+              <div class="risk-list">
+                <article>
+                  <strong>王子轩</strong>
+                  <span>剩余 2 课时 · Python 基础班</span>
+                </article>
+                <article>
+                  <strong>陈雨桐</strong>
+                  <span>剩余 1 课时 · Scratch L2</span>
+                </article>
+                <article>
+                  <strong>赵明哲</strong>
+                  <span>停课 21 天 · Arduino 创客</span>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="students" data-title="学员课时管理" data-kicker="学员课时">
+          <div class="toolbar">
+            <div class="filter-tabs" role="group" aria-label="学员筛选">
+              <button class="active" type="button" data-filter="all">全部</button>
+              <button type="button" data-filter="low">低课时</button>
+              <button type="button" data-filter="pause">停课中</button>
+              <button type="button" data-filter="renewed">已续费</button>
+            </div>
+            <button class="secondary-button" type="button">导出课时</button>
+          </div>
+          <section class="panel table-panel">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>学员</th>
+                    <th>课程</th>
+                    <th>剩余课时</th>
+                    <th>本月出勤</th>
+                    <th>班主任</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="studentTable"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="schedule" data-title="排课中心" data-kicker="排课中心">
+          <div class="schedule-layout">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <span>2026 年 5 月</span>
+                  <h2>本周排课</h2>
+                </div>
+                <button class="secondary-button" type="button" id="quickArrange">智能排课</button>
+              </div>
+              <div class="week-grid">
+                <div class="day-column">
+                  <strong>周一</strong>
+                  <button class="class-chip blue" type="button">Scratch L2<br><span>16:30</span></button>
+                  <button class="class-chip green" type="button">Python 入门<br><span>18:40</span></button>
+                </div>
+                <div class="day-column">
+                  <strong>周二</strong>
+                  <button class="class-chip orange" type="button">机器人创客<br><span>17:00</span></button>
+                </div>
+                <div class="day-column">
+                  <strong>周三</strong>
+                  <button class="class-chip green" type="button">Python 图形<br><span>18:30</span></button>
+                  <button class="class-chip red" type="button">C++ 启蒙<br><span>19:30</span></button>
+                </div>
+                <div class="day-column today">
+                  <strong>周四</strong>
+                  <button class="class-chip blue" type="button">Scratch 动画<br><span>09:00</span></button>
+                  <button class="class-chip green" type="button">Python 图形<br><span>14:30</span></button>
+                  <button class="class-chip red" type="button">NOIP 预备<br><span>18:40</span></button>
+                </div>
+                <div class="day-column">
+                  <strong>周五</strong>
+                  <button class="class-chip orange" type="button">AI 小实验<br><span>18:00</span></button>
+                </div>
+                <div class="day-column">
+                  <strong>周六</strong>
+                  <button class="class-chip blue" type="button">Scratch L3<br><span>10:00</span></button>
+                  <button class="class-chip red" type="button">C++ 基础<br><span>15:30</span></button>
+                </div>
+                <div class="day-column">
+                  <strong>周日</strong>
+                  <button class="class-chip green" type="button">Python 项目<br><span>10:30</span></button>
+                </div>
+              </div>
+            </section>
+
+            <aside class="panel schedule-side">
+              <div class="panel-head compact">
+                <div>
+                  <span>资源占用</span>
+                  <h2>教室与教师</h2>
+                </div>
+              </div>
+              <div class="resource-list">
+                <article>
+                  <span>教室 301</span>
+                  <strong>78%</strong>
+                  <progress max="100" value="78"></progress>
+                </article>
+                <article>
+                  <span>机房 2</span>
+                  <strong>64%</strong>
+                  <progress max="100" value="64"></progress>
+                </article>
+                <article>
+                  <span>教师负载</span>
+                  <strong>71%</strong>
+                  <progress max="100" value="71"></progress>
+                </article>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="consume" data-title="消课审核" data-kicker="消课审核">
+          <div class="review-board">
+            <section class="panel review-column">
+              <div class="panel-head compact"><h2>待确认</h2><span>9</span></div>
+              <article class="review-card">
+                <strong>Scratch 动画创作 L3</strong>
+                <span>8 名学员 · 林老师 · 09:00</span>
+                <button class="secondary-button small-action" type="button">确认消课</button>
+              </article>
+              <article class="review-card">
+                <strong>Python 图形化编程</strong>
+                <span>12 名学员 · 周老师 · 14:30</span>
+                <button class="secondary-button small-action" type="button">确认消课</button>
+              </article>
+            </section>
+            <section class="panel review-column">
+              <div class="panel-head compact"><h2>异常处理</h2><span>4</span></div>
+              <article class="review-card warning">
+                <strong>陈雨桐请假</strong>
+                <span>Scratch L2 · 需补课排期</span>
+                <button class="secondary-button small-action" type="button">安排补课</button>
+              </article>
+              <article class="review-card warning">
+                <strong>王子轩课时不足</strong>
+                <span>Python 基础 · 余额 2 课时</span>
+                <button class="secondary-button small-action" type="button">发送提醒</button>
+              </article>
+            </section>
+            <section class="panel review-column">
+              <div class="panel-head compact"><h2>已完成</h2><span>18</span></div>
+              <article class="review-card done">
+                <strong>机器人创客</strong>
+                <span>10 名学员 · 已消课</span>
+                <button class="secondary-button small-action" type="button">查看记录</button>
+              </article>
+              <article class="review-card done">
+                <strong>C++ 启蒙</strong>
+                <span>7 名学员 · 已消课</span>
+                <button class="secondary-button small-action" type="button">查看记录</button>
+              </article>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="teachers" data-title="教师班级管理" data-kicker="教师班级">
+          <div class="teacher-grid">
+            <article class="teacher-card">
+              <div class="avatar blue">林</div>
+              <div>
+                <strong>林嘉禾</strong>
+                <span>Scratch / AI 启蒙</span>
+              </div>
+              <dl>
+                <div><dt>本周课次</dt><dd>16</dd></div>
+                <div><dt>班级</dt><dd>5</dd></div>
+              </dl>
+            </article>
+            <article class="teacher-card">
+              <div class="avatar green">周</div>
+              <div>
+                <strong>周若晨</strong>
+                <span>Python / 数据思维</span>
+              </div>
+              <dl>
+                <div><dt>本周课次</dt><dd>18</dd></div>
+                <div><dt>班级</dt><dd>6</dd></div>
+              </dl>
+            </article>
+            <article class="teacher-card">
+              <div class="avatar red">韩</div>
+              <div>
+                <strong>韩泽宇</strong>
+                <span>C++ / 算法竞赛</span>
+              </div>
+              <dl>
+                <div><dt>本周课次</dt><dd>12</dd></div>
+                <div><dt>班级</dt><dd>4</dd></div>
+              </dl>
+            </article>
+            <article class="teacher-card">
+              <div class="avatar orange">许</div>
+              <div>
+                <strong>许安宁</strong>
+                <span>机器人 / Arduino</span>
+              </div>
+              <dl>
+                <div><dt>本周课次</dt><dd>14</dd></div>
+                <div><dt>班级</dt><dd>4</dd></div>
+              </dl>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="finance" data-title="续费提醒" data-kicker="续费提醒">
+          <section class="panel table-panel">
+            <div class="panel-head">
+              <div>
+                <span>未来 14 天</span>
+                <h2>续费跟进清单</h2>
+              </div>
+              <button class="primary-button" type="button">批量提醒</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>学员</th>
+                    <th>课程</th>
+                    <th>剩余课时</th>
+                    <th>最近上课</th>
+                    <th>家长</th>
+                    <th>跟进状态</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>王子轩</td><td>Python 基础班</td><td>2</td><td>5 月 19 日</td><td>王女士</td><td><span class="status-badge ready">待联系</span></td></tr>
+                  <tr><td>陈雨桐</td><td>Scratch L2</td><td>1</td><td>5 月 18 日</td><td>陈先生</td><td><span class="status-badge doing">已沟通</span></td></tr>
+                  <tr><td>李星然</td><td>C++ 启蒙</td><td>3</td><td>5 月 20 日</td><td>李女士</td><td><span class="status-badge muted">待确认</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <dialog class="create-modal" id="createModal">
+      <form method="dialog">
+        <div class="modal-head">
+          <div>
+            <span>新增排课</span>
+            <h2>创建课程安排</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="关闭">×</button>
+        </div>
+        <div class="form-grid">
+          <label>
+            课程名称
+            <input type="text" value="Scratch 动画创作 L3">
+          </label>
+          <label>
+            班级
+            <select>
+              <option>启航 A 班</option>
+              <option>火箭 B 班</option>
+              <option>竞赛预备班</option>
+            </select>
+          </label>
+          <label>
+            上课日期
+            <input type="date" value="2026-05-21">
+          </label>
+          <label>
+            上课时间
+            <input type="time" value="18:40">
+          </label>
+          <label>
+            授课教师
+            <select>
+              <option>林嘉禾</option>
+              <option>周若晨</option>
+              <option>韩泽宇</option>
+            </select>
+          </label>
+          <label>
+            教室
+            <select>
+              <option>教室 301</option>
+              <option>机房 2</option>
+              <option>创客教室</option>
+            </select>
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button class="secondary-button" value="cancel" type="submit">取消</button>
+          <button class="primary-button" value="default" type="submit" id="saveSchedule">保存排课</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">已保存</div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
